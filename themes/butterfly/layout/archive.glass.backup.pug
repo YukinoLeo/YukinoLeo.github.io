@@ -1,0 +1,193 @@
+doctype html
+html(lang=config.language)
+
+  head
+    include ./includes/head.pug
+
+    link(
+      rel="stylesheet"
+      href=url_for('/css/glass.css')
+    )
+
+  body.glass-blog-page
+
+    //- Background
+    .glass-background
+      .glass-orb.glass-orb-1
+      .glass-orb.glass-orb-2
+      .glass-orb.glass-orb-3
+
+    //- Navigation
+    nav.glass-navbar
+
+      a.glass-logo(href=url_for('/'))
+        | YL
+
+      .glass-nav-links
+
+        a(href=url_for('/'))
+          | Home
+
+        a.glass-nav-active(href=url_for('/archives/'))
+          | Blog
+
+        a(href=url_for('/research/'))
+          | Research
+
+        a(href=url_for('/projects/'))
+          | Projects
+
+        a(
+          href='https://github.com/YukinoLeo'
+          target='_blank'
+          rel='noopener'
+        )
+          | GitHub
+          i.fas.fa-arrow-up-right-from-square
+
+
+    //- Main
+    main.glass-blog-main
+
+      //- Header
+      section.glass-blog-header
+
+        .section-eyebrow
+          | WRITINGS
+
+        h1
+          | Blog
+
+        p
+          | Thoughts, papers, experiments and things worth keeping.
+
+
+      //- Posts
+      section.glass-blog-list
+
+        each article in page.posts.data
+
+          - const link = article.link || article.path
+          - const title = article.title || 'Untitled'
+          - const description = postDesc(article)
+
+          article.glass-blog-card
+
+            .blog-card-main
+
+              .blog-card-meta
+
+                span.blog-card-date
+                  = date(article.date, config.date_format)
+
+                if article.categories && article.categories.data.length
+
+                  span.blog-card-separator
+                    | ·
+
+                  each category, index in article.categories.data
+
+                    if index < 2
+                      a.blog-card-category(
+                        href=url_for(category.path)
+                      )
+                        = category.name
+
+                      if index < article.categories.data.length - 1
+                        span.blog-card-category-separator
+                          | ·
+
+
+              h2
+
+                a(href=url_for(link))
+                  = title
+
+
+              if description
+
+                p.blog-card-excerpt!= description
+
+
+              if article.tags && article.tags.data.length
+
+                .blog-card-tags
+
+                  each tag, index in article.tags.data
+
+                    if index < 5
+                      a.blog-card-tag(
+                        href=url_for(tag.path)
+                      )
+                        | #
+                        = tag.name
+
+
+            a.blog-card-arrow(
+              href=url_for(link)
+              aria-label='Read article'
+            )
+              i.fas.fa-arrow-right
+
+
+      //- Pagination
+      if page.total > 1
+
+        nav.glass-blog-pagination
+
+          if page.prev
+            a.glass-pagination-button(
+              href=url_for(page.prev_link)
+            )
+              i.fas.fa-arrow-left
+              | Previous
+
+          else
+            span.glass-pagination-button.disabled
+              i.fas.fa-arrow-left
+              | Previous
+
+
+          span.glass-pagination-info
+            = page.current
+            |  / 
+            = page.total
+
+
+          if page.next
+            a.glass-pagination-button(
+              href=url_for(page.next_link)
+            )
+              | Next
+              i.fas.fa-arrow-right
+
+          else
+            span.glass-pagination-button.disabled
+              | Next
+              i.fas.fa-arrow-right
+
+
+      //- Footer
+      footer.glass-footer
+
+        .footer-content
+
+          p
+            | © 2026 YukinoLeo
+
+          .footer-links
+
+            a(
+              href='https://github.com/YukinoLeo'
+              target='_blank'
+              rel='noopener'
+            )
+              | GitHub
+
+            a(
+              href='mailto:angra-mainyu@sjtu.edu.cn'
+            )
+              | Email
+
+            a(href=url_for('/'))
+              | Home

@@ -1,0 +1,18 @@
+# =========================================================
+# Butterfly Custom Configuration
+# =========================================================
+
+# Navigation
+menu:
+  Home: /
+  Blog: /archives/
+  Projects: /projects/
+  Research: /research/
+  Archives: /archives/
+  Tags: /tags/
+  Categories: /categories/
+
+# Social links
+social:
+  fab fa-github: https://github.com/AngraMainyuLZ
+  fas fa-envelope: mailto:angra-mainyu@sjtu.edu.cn

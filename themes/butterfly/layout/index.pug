@@ -1,0 +1,343 @@
+doctype html
+html(lang=config.language)
+
+  head
+
+    include ./includes/head.pug
+
+    link(
+      rel="stylesheet"
+      href=url_for('/css/glass.css')
+    )
+
+  body.glass-home-page
+
+    //- Background
+    .glass-background
+      .glass-orb.glass-orb-1
+      .glass-orb.glass-orb-2
+      .glass-orb.glass-orb-3
+
+
+    //- Navigation
+    nav.glass-navbar
+
+      a.glass-logo(href=url_for('/'))
+        | LZ
+
+      .glass-nav-links
+
+        a(href=url_for('/'))
+          | Home
+
+        a(href=url_for('/archives/'))
+          | Blog
+
+        a(href=url_for('/research/'))
+          | Research
+
+        a(href=url_for('/projects/'))
+          | Projects
+
+        a(
+          href='https://github.com/YukinoLeo'
+          target='_blank'
+          rel='noopener'
+        )
+          | GitHub
+          i.fas.fa-arrow-up-right-from-square
+
+
+    //- Main
+    main.glass-main
+
+      //- =================================================
+      //- Hero
+      //- =================================================
+
+      section.glass-hero
+
+        .hero-layout
+
+          //- ============================================
+          //- Left: Avatar / Identity
+          //- ============================================
+
+          .hero-left
+
+            .hero-avatar
+              img(
+                src=url_for('/images/avatar.png')
+                alt='YukinoLeo'
+              )
+
+            .hero-eyebrow
+              | AI · RESEARCH · BUILDER
+
+            .hero-links
+
+              a.hero-link(
+                href='https://github.com/YukinoLeo'
+                target='_blank'
+                rel='noopener'
+              )
+                i.fab.fa-github
+                | GitHub
+
+              a.hero-link(
+                href='mailto:angra-mainyu@sjtu.edu.cn'
+              )
+                i.fas.fa-envelope
+                | Email
+
+
+          //- ============================================
+          //- Right: Introduction
+          //- ============================================
+
+          .hero-right
+
+            h1.hero-title
+              | YukinoLeo
+
+            p.hero-description
+              | Exploring generative AI, multimodal learning,
+              | computer vision and things I find interesting.
+
+
+      //- =================================================
+      //- Blog
+      //- =================================================
+
+      section.glass-section#blog
+
+        .section-heading
+
+          .section-eyebrow
+            | WRITINGS
+
+          h2
+            | Blog
+
+          p
+            | Thoughts, papers, experiments and things worth keeping.
+
+
+        //- -------------------------------------------------
+        //- Blog Columns
+        //- -------------------------------------------------
+
+        .blog-columns-block
+
+          .blog-subheading
+            | COLUMNS
+
+          .glass-project-grid
+
+            each category, index in blogCategories
+
+              if index < 3
+
+                a.glass-project-card.blog-column-card(
+                  href=url_for('/blog/' + category.slug + '/')
+                )
+
+                  .project-number
+                    = String(index + 1).padStart(2, '0')
+
+                  h3
+                    = category.name
+
+                  p
+                    if category.name === 'AI基础'
+                      | Core concepts, foundations and essential ideas in artificial intelligence.
+                    else if category.name === 'Diffusion'
+                      | Notes and explorations on diffusion models, generative modeling and related techniques.
+                    else if category.name === 'PaperWeekly'
+                      | Weekly notes, discussions and interesting ideas from recently read research papers.
+                    else
+                      | Articles, notes and ideas collected around this topic.
+
+                  span.project-link
+                    = category.posts.length + (category.posts.length === 1 ? ' article' : ' articles')
+                    | &nbsp;
+                    i.fas.fa-arrow-right
+
+
+        //- -------------------------------------------------
+        //- Latest Article
+        //- -------------------------------------------------
+
+        .latest-article-block
+
+          .blog-subheading
+            | LATEST ARTICLE
+
+          - const latestArticle = page.posts ? page.posts.data[0] : null
+
+          if latestArticle
+
+            - const latestLink = latestArticle.link || latestArticle.path
+            - const latestTitle = latestArticle.title || 'Untitled'
+            - const latestDescription = postDesc(latestArticle)
+
+            article.glass-post-card.latest-article-card
+
+              .blog-card-main
+
+                .blog-card-meta
+
+                  span.blog-card-date
+                    = date(latestArticle.date, config.date_format)
+
+                h3
+
+                  a(href=url_for(latestLink))
+                    = latestTitle
+
+                if latestDescription
+
+                  p.blog-card-excerpt!= latestDescription
+
+              a.blog-card-arrow(
+                href=url_for(latestLink)
+                aria-label='Read article'
+              )
+                i.fas.fa-arrow-right
+
+
+      //- =================================================
+      //- Research
+      //- =================================================
+
+      section.glass-section#research
+
+        .section-heading
+
+          .section-eyebrow
+            | RESEARCH
+
+          h2
+            | Research
+
+          p
+            | Notes, papers and experiments in AI and computer vision.
+
+
+        .glass-project-grid
+
+          each item, index in research
+
+            a.glass-project-card(
+              href=item.link
+              target='_blank'
+              rel='noopener'
+            )
+
+              .project-number
+                = String(index + 1).padStart(2, '0')
+
+              if item.cover
+                .project-cover
+                  img(
+                    src=url_for(item.cover)
+                    alt=item.title
+                  )
+
+              .project-card-content
+
+                if item.venue
+                  span.project-venue
+                    = item.venue
+
+                h3
+                  = item.title
+
+                if item.description
+                  p
+                    = item.description
+
+                span.project-link
+                  = item.link_text || 'Explore research'
+                  i.fas.fa-arrow-right
+
+
+      //- =================================================
+      //- Projects
+      //- =================================================
+
+      section.glass-section#projects
+
+        .section-heading
+
+          .section-eyebrow
+            | SELECTED WORK
+
+          h2
+            | Projects
+
+          p
+            | Research projects, experiments and things I am building.
+
+
+        .glass-project-grid
+
+          each item, index in projects
+
+            a.glass-project-card(
+              href=item.link
+              target='_blank'
+              rel='noopener'
+            )
+
+              .project-number
+                = String(index + 1).padStart(2, '0')
+
+              if item.cover
+                .project-cover
+                  img(
+                    src=url_for(item.cover)
+                    alt=item.title
+                  )
+
+              .project-card-content
+
+                h3
+                  = item.title
+
+                if item.description
+                  p
+                    = item.description
+
+                span.project-link
+                  = item.link_text || 'Explore project'
+                  i.fas.fa-arrow-right
+
+
+      //- =================================================
+      //- Footer
+      //- =================================================
+
+      footer.glass-footer
+
+        .footer-content
+
+          p
+            | © 2026 YukinoLeo
+
+          .footer-links
+
+            a(
+              href='https://github.com/YukinoLeo'
+              target='_blank'
+              rel='noopener'
+            )
+              | GitHub
+
+            a(
+              href='mailto:angra-mainyu@sjtu.edu.cn'
+            )
+              | Email
+
+            a(href=url_for('/'))
+              | Home

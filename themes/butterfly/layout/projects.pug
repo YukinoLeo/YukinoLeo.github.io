@@ -1,0 +1,65 @@
+extends includes/layout.pug
+
+block content
+
+  .collection-page
+    .collection-header
+      h1 Projects
+      p Things I build, explore, and work on.
+
+    .collection-grid
+      each item in page.projects
+        .collection-card
+
+          if item.cover
+            .collection-card-cover
+              if item.link
+                a(
+                  href=item.link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                )
+                  img(
+                    src=url_for(item.cover)
+                    alt=item.title
+                    loading="lazy"
+                  )
+              else
+                img(
+                  src=url_for(item.cover)
+                  alt=item.title
+                  loading="lazy"
+                )
+
+          .collection-card-body
+
+            if item.type
+              .collection-card-meta
+                = item.type
+
+            h2.collection-card-title
+              if item.link
+                a(
+                  href=item.link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                )= item.title
+              else
+                = item.title
+
+            if item.description
+              p.collection-card-description
+                = item.description
+
+            if item.year
+              span.collection-card-year
+                = item.year
+
+            if item.link
+              a.collection-card-link(
+                href=item.link
+                target="_blank"
+                rel="noopener noreferrer"
+              )
+                = item.link_text || 'View Project'
+                i.fas.fa-arrow-up-right-from-square
