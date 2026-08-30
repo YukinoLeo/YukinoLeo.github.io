@@ -8,11 +8,14 @@ menu:
   Blog: /archives/
   Projects: /projects/
   Research: /research/
-  Archives: /archives/
-  Tags: /tags/
-  Categories: /categories/
 
 # Social links
 social:
-  fab fa-github: https://github.com/AngraMainyuLZ
+  fab fa-github: https://github.com/YukinoLeo
   fas fa-envelope: mailto:angra-mainyu@sjtu.edu.cn
+
+# Author card button
+aside:
+  card_author:
+    button:
+      link: https://github.com/YukinoLeo

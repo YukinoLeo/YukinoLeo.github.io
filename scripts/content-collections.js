@@ -180,7 +180,7 @@ hexo.extend.generator.register(
         data: {
           title: 'Research',
           type: 'research',
-          aside: false,
+          aside: true,
           research
         },
 
@@ -198,7 +198,7 @@ hexo.extend.generator.register(
         data: {
           title: 'Projects',
           type: 'projects',
-          aside: false,
+          aside: true,
           projects
         },
 
