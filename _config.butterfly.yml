@@ -14,6 +14,11 @@ social:
   fab fa-github: https://github.com/YukinoLeo
   fas fa-envelope: mailto:angra-mainyu@sjtu.edu.cn
 
+# Math rendering (KaTeX). Pages enable it via `katex: true` in front matter.
+math:
+  use: katex
+  per_page: true
+
 # Author card button
 aside:
   card_author:

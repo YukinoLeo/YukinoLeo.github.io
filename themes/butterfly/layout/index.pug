@@ -172,7 +172,7 @@ html(lang=config.language)
 
             - const latestLink = latestArticle.link || latestArticle.path
             - const latestTitle = latestArticle.title || 'Untitled'
-            - const latestDescription = postDesc(latestArticle)
+            - const latestDescription = postCard(latestArticle).excerpt
 
             article.glass-post-card.latest-article-card
 
