@@ -143,6 +143,112 @@
   font-size: 11px;
 }
 
+/* =========================================================
+   Blog column cards (the /blog/ station)
+   ========================================================= */
+
+.collection-column-card {
+  color: inherit;
+  text-decoration: none;
+}
+
+.collection-column-card .collection-card-title {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.collection-column-card:hover .collection-card-title {
+  color: var(--anzhiyu-main);
+}
+
+/* =========================================================
+   Horizontal article cards (blog category pages)
+   ========================================================= */
+
+.post-row-list {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.post-row-card {
+  display: block;
+  padding: 22px 26px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(40, 50, 80, 0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.post-row-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(40, 50, 80, 0.12);
+}
+
+.post-row-title {
+  margin: 0 0 12px;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.post-row-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.post-row-card:hover .post-row-title a {
+  color: var(--anzhiyu-main);
+}
+
+.post-row-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  opacity: 0.72;
+}
+
+.post-row-date,
+.post-row-views {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-row-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-row-tag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(120, 130, 155, 0.1);
+  color: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.post-row-tag:hover {
+  background: rgba(120, 130, 155, 0.2);
+  color: var(--anzhiyu-main);
+}
+
+.post-row-excerpt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  opacity: 0.72;
+}
+
 @media (max-width: 768px) {
 
   .collection-page {
@@ -171,5 +277,13 @@
 
   .collection-card-title {
     font-size: 22px;
+  }
+
+  .post-row-card {
+    padding: 18px 20px;
+  }
+
+  .post-row-title {
+    font-size: 18px;
   }
 }

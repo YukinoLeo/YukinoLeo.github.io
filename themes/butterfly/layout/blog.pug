@@ -1,0 +1,39 @@
+extends includes/layout.pug
+
+block content
+
+  .collection-page
+    .collection-header
+      h1= page.title
+      p Articles, columns and notes I am writing.
+
+    .collection-grid
+      each column in page.blogCategories
+
+        a.collection-card.collection-column-card(
+          href=url_for('/blog/' + column.slug + '/')
+        )
+
+          if column.cover
+            .collection-card-cover
+              img(
+                src=url_for(column.cover)
+                alt=column.name
+                loading="lazy"
+              )
+
+          .collection-card-body
+
+            .collection-card-meta
+              = column.posts.length + (column.posts.length === 1 ? ' article' : ' articles')
+
+            h2.collection-card-title
+              = column.name
+
+            if column.description
+              p.collection-card-description
+                = column.description
+
+            span.collection-card-link
+              | Explore
+              i.fas.fa-arrow-right

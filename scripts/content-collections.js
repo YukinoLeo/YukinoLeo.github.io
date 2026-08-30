@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
+const { stripHTML, truncate } = require('hexo-util')
 
 
 // =====================================================
@@ -60,92 +61,106 @@ const projects = loadCollection(
 
 
 // =====================================================
-// Load Blog categories
+// Blog categories (built from real posts)
 // =====================================================
 
-function loadBlogCategories(hexo) {
-  const postsDir = path.join(
-    hexo.source_dir,
-    '_posts'
-  )
-
-  if (!fs.existsSync(postsDir)) {
-    return []
+// Column metadata keyed by category name.
+// Columns without an entry fall back to the generic description.
+const COLUMN_META = {
+  'AI基础': {
+    description: 'Core concepts, foundations and essential ideas in artificial intelligence.'
+  },
+  'Diffusion': {
+    description: 'Notes and explorations on diffusion models, generative modeling and related techniques.'
+  },
+  'PaperWeekly': {
+    description: 'Weekly notes, discussions and interesting ideas from recently read research papers.'
   }
+}
 
-  const files = fs.readdirSync(postsDir)
-    .filter(file => file.endsWith('.md'))
+// Temporary cover for column cards (to be replaced later).
+const DEFAULT_COLUMN_COVER = '/images/projects/coursemate.png'
 
+// Generic description for columns without an entry above.
+const DEFAULT_COLUMN_DESCRIPTION =
+  'Articles, notes and ideas collected around this topic.'
+
+
+// Turns a real Hexo post into the minimal shape the card templates need.
+// Registered as a template helper so any category page (ours at /blog/:name/
+// and the default hexo-generator-category ones at /categories/:name/) can
+// render the horizontal cards from real posts.
+function toPostCard(post) {
+  const tags = (post.tags && post.tags.toArray
+    ? post.tags.toArray()
+    : []
+  ).map(tag => ({
+    name: tag.name,
+    path: tag.path
+  }))
+
+  return {
+    title: post.title || 'Untitled',
+    path: post.path,
+    date: post.date,
+    tags,
+    views: post.views || 0,
+    excerpt: truncate(
+      stripHTML(post.content).replace(/\n/g, ' '),
+      { length: 90 }
+    )
+  }
+}
+
+
+// Derives blog categories from the real post collection.
+// Must run after Hexo has loaded source posts (template_locals /
+// generator callbacks), so it is computed lazily per call.
+function getBlogCategories() {
+  const posts = hexo.locals.get('posts').toArray()
   const categoryMap = new Map()
 
-  files.forEach(file => {
+  posts.forEach(post => {
+    const names = (post.categories && post.categories.toArray
+      ? post.categories.toArray()
+      : []
+    ).map(category => category.name)
 
-    const filePath = path.join(postsDir, file)
-    const content = fs.readFileSync(filePath, 'utf8')
+    names.forEach(name => {
+      if (!name) return
 
-    const match = content.match(
-      /^---\s*([\s\S]*?)\s*---/
-    )
-
-    if (!match) {
-      return
-    }
-
-    const data = yaml.load(match[1]) || {}
-
-    let categories = data.categories || []
-
-    // Allow:
-    //
-    // categories:
-    //   - AI基础
-    //   - Diffusion
-    //
-    // or:
-    //
-    // categories: AI基础
-
-    if (!Array.isArray(categories)) {
-      categories = [categories]
-    }
-
-    categories.forEach(category => {
-
-      if (!category) {
-        return
-      }
-
-      category = String(category)
-
-      if (!categoryMap.has(category)) {
-        categoryMap.set(category, {
-          name: category,
-          slug: category,
+      if (!categoryMap.has(name)) {
+        categoryMap.set(name, {
+          name,
+          slug: name,
           posts: []
         })
       }
 
-      categoryMap.get(category).posts.push({
-        ...data,
-        slug: path.basename(file, '.md')
-      })
+      categoryMap.get(name).posts.push(post)
     })
   })
 
-  return Array.from(categoryMap.values())
+  return Array.from(categoryMap.values()).map(category => ({
+    ...category,
+    posts: category.posts.sort(
+      (a, b) => b.date.valueOf() - a.date.valueOf()
+    ),
+    description: COLUMN_META[category.name]
+      ? COLUMN_META[category.name].description
+      : DEFAULT_COLUMN_DESCRIPTION,
+    cover: DEFAULT_COLUMN_COVER
+  }))
 }
-
-
-// =====================================================
-// Load blog categories once during initialization
-// =====================================================
-
-const blogCategories = loadBlogCategories(hexo)
 
 
 // =====================================================
 // Make collections available to templates
 // =====================================================
+
+// Template helper: post -> { title, path, date, tags, views, excerpt }
+hexo.extend.helper.register('postCard', (post) => toPostCard(post))
+
 
 hexo.extend.filter.register(
   'template_locals',
@@ -153,7 +168,7 @@ hexo.extend.filter.register(
 
     locals.research = research
     locals.projects = projects
-    locals.blogCategories = blogCategories
+    locals.blogCategories = getBlogCategories()
 
     return locals
   }
@@ -161,12 +176,14 @@ hexo.extend.filter.register(
 
 
 // =====================================================
-// Generate Research / Projects / Blog Category pages
+// Generate Research / Projects / Blog pages
 // =====================================================
 
 hexo.extend.generator.register(
   'content-collections',
   function () {
+
+    const categories = getBlogCategories()
 
     const routes = [
 
@@ -203,6 +220,24 @@ hexo.extend.generator.register(
         },
 
         layout: 'projects'
+      },
+
+
+      // -------------------------------------------------
+      // Blog column station
+      // -------------------------------------------------
+
+      {
+        path: 'blog/index.html',
+
+        data: {
+          title: 'Blog',
+          type: 'blog',
+          aside: true,
+          blogCategories: categories
+        },
+
+        layout: 'blog'
       }
 
     ]
@@ -212,7 +247,7 @@ hexo.extend.generator.register(
     // Blog category pages
     // ---------------------------------------------------
 
-    blogCategories.forEach(category => {
+    categories.forEach(category => {
 
       routes.push({
 

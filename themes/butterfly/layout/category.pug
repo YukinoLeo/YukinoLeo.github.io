@@ -1,14 +1,35 @@
 extends includes/layout.pug
 
 block content
-  if theme.category_ui == 'index'
-    include ./includes/mixins/indexPostUI.pug
-    +indexPostUI
-  else
-    include ./includes/mixins/article-sort.pug
-    #category
-      .article-sort-title
-        i.fas.fa-folder-open
-        = page.category
-      +articleSort(page.posts)
-      include includes/pagination.pug
+  #category
+    - const cards = page.posts.map(postCard)
+
+    .collection-header
+      h1= page.category
+      p= cards.length + (cards.length === 1 ? ' article' : ' articles') + ' in this column.'
+
+    .post-row-list
+      each card in cards
+
+        article.post-row-card
+
+          h2.post-row-title
+            a(href=url_for(card.path))= card.title
+
+          .post-row-meta
+
+            span.post-row-date
+              i.far.fa-calendar-alt
+              = date(card.date, config.date_format)
+
+            if card.tags && card.tags.length
+              .post-row-tags
+                each tag in card.tags
+                  a.post-row-tag(href=url_for(tag.path))= tag.name
+
+            span.post-row-views
+              i.fas.fa-eye
+              = card.views
+
+          if card.excerpt
+            p.post-row-excerpt= card.excerpt
