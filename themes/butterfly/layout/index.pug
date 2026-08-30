@@ -149,14 +149,7 @@ html(lang=config.language)
                     = category.name
 
                   p
-                    if category.name === 'AI基础'
-                      | Core concepts, foundations and essential ideas in artificial intelligence.
-                    else if category.name === 'Diffusion'
-                      | Notes and explorations on diffusion models, generative modeling and related techniques.
-                    else if category.name === 'PaperWeekly'
-                      | Weekly notes, discussions and interesting ideas from recently read research papers.
-                    else
-                      | Articles, notes and ideas collected around this topic.
+                    = category.description
 
                   span.project-link
                     = category.posts.length + (category.posts.length === 1 ? ' article' : ' articles')

@@ -1,8 +1,6 @@
 ---
 title: Why I Build This Blog
 date: 2026-08-25 09:30:00
-categories:
-  - AI基础
 tags:
   - Blog
   - AI

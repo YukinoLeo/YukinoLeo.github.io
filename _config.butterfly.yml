@@ -19,3 +19,6 @@ aside:
   card_author:
     button:
       link: https://github.com/YukinoLeo
+  # Native Hexo category pages/widget are hidden — columns live at /blog/<id>/
+  card_categories:
+    enable: false
