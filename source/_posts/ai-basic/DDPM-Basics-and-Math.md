@@ -3,6 +3,7 @@ title: DDPM 模型基础与数学推导
 date: 2026-08-30 10:00:00
 katex: true
 column: diffusion
+views: 114514
 tags:
   - DDPM
   - Diffusion

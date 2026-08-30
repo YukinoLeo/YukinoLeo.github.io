@@ -19,9 +19,11 @@ defaults:
 columns:
   ai-basic:
     name: AI基础
+    cover: images/columns/ai-basic.png
     description: Core concepts, foundations and essential ideas in artificial intelligence.
   diffusion:
     name: Diffusion
+    cover: images/columns/diffusion.png
     description: Notes and explorations on diffusion models, generative modeling and related techniques.
   paper-weekly:
     name: PaperWeekly
