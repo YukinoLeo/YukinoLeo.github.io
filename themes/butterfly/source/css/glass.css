@@ -370,147 +370,82 @@
 }
 
 /* Blog columns */
-.glass-blog-columns {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+.blog-columns-block {
   margin-top: 42px;
 }
 
-.glass-blog-column-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 240px;
-  padding: 28px 30px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.48);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 20px 60px rgba(50, 60, 90, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  text-decoration: none;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-}
-
-.glass-blog-column-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.65);
-  box-shadow: 0 28px 70px rgba(50, 60, 90, 0.14);
-}
-
-.blog-column-number {
-  margin-bottom: 32px;
+.blog-subheading {
+  margin-bottom: 18px;
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  opacity: 0.45;
-}
-
-.blog-column-content {
-  margin-top: auto;
-}
-
-.blog-column-subtitle {
-  margin-bottom: 8px;
-  font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.16em;
-  opacity: 0.48;
+  opacity: 0.55;
 }
 
-.blog-column-content h3 {
-  margin: 0 0 10px;
-  font-size: 25px;
-  font-weight: 600;
-  color: #222;
+/* Column cards (reuse .glass-project-card, slightly compact) */
+.blog-column-card {
+  padding: 28px 30px;
 }
 
-.blog-column-content p {
-  margin: 0;
-  font-size: 14px;
+.blog-column-card h3 {
+  margin-top: 12px;
+  margin-bottom: 10px;
+}
+
+.blog-column-card p {
+  margin-bottom: 20px;
   line-height: 1.7;
-  color: rgba(30, 30, 40, 0.62);
+  font-size: 14px;
+  opacity: 0.72;
 }
 
-.blog-column-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 20px;
+.blog-column-card .project-link {
   font-size: 13px;
-  font-weight: 500;
-  color: rgba(30, 30, 40, 0.75);
-}
-
-.blog-column-link:hover {
-  opacity: 0.65;
 }
 
 /* Latest article */
-.latest-blog-section {
-  margin-top: 64px;
+.latest-article-block {
+  margin-top: 58px;
 }
 
-.latest-blog-heading {
-  margin-bottom: 26px;
+.blog-card-main {
+  min-width: 0;
 }
 
-.latest-blog-heading h3 {
-  margin: 6px 0 0;
-  font-size: 30px;
-  font-weight: 600;
-}
-
-.latest-blog-card {
-  position: relative;
-  padding: 34px 38px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 20px 60px rgba(50, 60, 90, 0.07);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.latest-blog-meta {
-  margin-bottom: 14px;
+.blog-card-meta {
+  margin-bottom: 12px;
   font-size: 12px;
-  color: rgba(30, 30, 40, 0.45);
+  color: var(--text-muted);
 }
 
-.latest-blog-card h4 {
-  margin: 0;
-  font-size: 25px;
-  font-weight: 600;
-}
-
-.latest-blog-card h4 a {
-  color: #222;
-  text-decoration: none;
-}
-
-.latest-blog-card p {
+.blog-card-excerpt {
   max-width: 760px;
-  margin: 14px 0 0;
+  margin: 12px 0 0;
   font-size: 14px;
   line-height: 1.8;
-  color: rgba(30, 30, 40, 0.62);
+  color: var(--text-secondary);
 }
 
-.latest-blog-link {
-  display: inline-flex;
+.blog-card-arrow {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 24px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(30, 30, 40, 0.75);
+  justify-content: center;
+  margin-top: auto;
+  align-self: flex-start;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   text-decoration: none;
+  box-shadow: 0 8px 24px rgba(60, 70, 100, 0.08);
+  transition: transform 0.25s ease, background 0.25s ease;
 }
 
-.latest-blog-link:hover {
-  opacity: 0.65;
+.blog-card-arrow:hover {
+  transform: translateX(4px);
+  background: #fff;
 }
 
 /* Research / project cards */
@@ -756,35 +691,12 @@
     border-radius: 16px;
   }
 
-  .glass-blog-columns {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    margin-top: 30px;
+  .blog-column-card {
+    padding: 24px 26px;
   }
 
-  .glass-blog-column-card {
-    min-height: 220px;
-    padding: 26px;
-  }
-
-  .blog-column-number {
-    margin-bottom: 32px;
-  }
-
-  .blog-column-content h3 {
-    font-size: 24px;
-  }
-
-  .latest-blog-section {
+  .latest-article-block {
     margin-top: 48px;
-  }
-
-  .latest-blog-card {
-    padding: 26px;
-  }
-
-  .latest-blog-card h4 {
-    font-size: 22px;
   }
 
   .footer-content {

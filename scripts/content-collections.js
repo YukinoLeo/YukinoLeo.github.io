@@ -120,7 +120,7 @@ function loadBlogCategories(hexo) {
       if (!categoryMap.has(category)) {
         categoryMap.set(category, {
           name: category,
-          slug: encodeURIComponent(category),
+          slug: category,
           posts: []
         })
       }
